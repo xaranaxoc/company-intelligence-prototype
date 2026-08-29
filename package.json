@@ -1,0 +1,19 @@
+{
+  "name": "sitescope",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "SiteScope — локальный сервис анализа компании по открытым источникам",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "start": "node --no-warnings server.js",
+    "browser": "npm install playwright --no-audit --no-fund && npx playwright install chromium"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "jszip": "^3.10.1",
+    "playwright": "^1.62.1"
+  }
+}

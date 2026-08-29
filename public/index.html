@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SiteScope — анализ компании и структура сайта</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topnav">
+    <div class="container topnav-inner">
+      <div class="brand-lockup">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4M11 8v6M8 11h6"/></svg>
+        </span>
+        <span class="logo">SiteScope</span>
+        <span class="tag">локальный</span>
+      </div>
+      <nav aria-label="Основная навигация">
+        <button type="button" data-action="new">Новый анализ</button>
+        <button type="button" data-action="history">История</button>
+        <button type="button" data-action="settings">Настройки</button>
+        <button type="button" data-action="help">Как это работает</button>
+      </nav>
+      <button class="btn btn-secondary" type="button" data-action="history">Последние отчёты</button>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="side-group">
+        <span class="side-label">Рабочая область</span>
+        <button class="side-link is-active" type="button" data-action="new" data-nav="new">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          Новый анализ
+        </button>
+        <button class="side-link" type="button" data-action="history" data-nav="history">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+          История
+        </button>
+      </div>
+      <div class="side-group">
+        <span class="side-label">Система</span>
+        <button class="side-link" type="button" data-action="settings" data-nav="settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.5-2-3.4-2.4 1A8 8 0 0 0 15 6l-.3-2.6h-4L10.4 6a8 8 0 0 0-1.6.9l-2.4-1-2 3.4 2 1.6a7 7 0 0 0 0 2.1l-2 1.6 2 3.4 2.4-1a8 8 0 0 0 1.6.9l.3 2.6h4L15 18a8 8 0 0 0 1.6-.9l2.4 1 2-3.4-2-1.6a7 7 0 0 0 0-1.1Z"/></svg>
+          Настройки
+        </button>
+        <button class="side-link" type="button" data-action="help">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.8 9a2.3 2.3 0 1 1 3.4 2c-.8.5-1.2 1-1.2 2M12 17h.01"/></svg>
+          О сервисе
+        </button>
+      </div>
+      <div class="side-project" id="side-last" hidden>
+        <span class="meta">Последний отчёт</span>
+        <strong id="side-last-name"></strong>
+        <p id="side-last-note"></p>
+        <button class="btn btn-ghost btn-arrow" type="button" id="side-last-open">Открыть</button>
+      </div>
+    </aside>
+
+    <main class="workspace" id="content">
+      <!-- ===== НОВЫЙ АНАЛИЗ ===== -->
+      <section class="view" id="view-new" data-view="new" hidden>
+        <div class="workspace-head">
+          <p class="eyebrow">Новый проект · шаг 1</p>
+          <h1>Соберите основу сайта из открытых данных</h1>
+          <p class="lead">Добавьте ссылки на площадки компании. Сервис соберёт факты, медиа и структуру сайта, а ИИ оформит готовый бриф для лендинга.</p>
+        </div>
+
+        <div class="grid-2-1">
+          <div class="card source-card">
+            <div class="row-between">
+              <div>
+                <h3>Источники компании</h3>
+                <p style="margin: 6px 0 0; color: var(--muted);">Достаточно одной ссылки. Остальные повышают полноту отчёта.</p>
+              </div>
+              <span class="tag" id="provider-hint">ИИ: Codex CLI</span>
+            </div>
+
+            <form id="analysis-form" novalidate>
+              <div class="source-list" id="source-list">
+                <div class="source-row">
+                  <div class="source-name">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.5"/><circle cx="17.3" cy="6.8" r=".8" fill="currentColor" stroke="none"/></svg>
+                    Instagram
+                  </div>
+                  <div class="field">
+                    <label for="instagram">Ссылка на профиль</label>
+                    <input class="input source-input" id="instagram" name="instagram" type="url" placeholder="https://instagram.com/company" />
+                  </div>
+                </div>
+                <div class="source-row">
+                  <div class="source-name">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"/><circle cx="12" cy="10" r="2"/></svg>
+                    2ГИС
+                  </div>
+                  <div class="field">
+                    <label for="twogis">Карточка организации</label>
+                    <input class="input source-input" id="twogis" name="twogis" type="url" placeholder="https://2gis.ru/..." />
+                  </div>
+                </div>
+                <div class="source-row">
+                  <div class="source-name">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3a7 7 0 0 0-7 7c0 5 7 11 7 11s7-6 7-11a7 7 0 0 0-7-7Z"/><path d="M9.5 10.2 11 12l3.7-4"/></svg>
+                    Яндекс Карты
+                  </div>
+                  <div class="field">
+                    <label for="yandex">Ссылка на организацию</label>
+                    <input class="input source-input" id="yandex" name="yandex" type="url" placeholder="https://yandex.ru/maps/org/..." />
+                  </div>
+                </div>
+                <div class="source-row" id="website-source">
+                  <div class="source-name">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>
+                    Сайт
+                  </div>
+                  <div class="field">
+                    <label for="website">Официальный сайт</label>
+                    <input class="input source-input" id="website" name="website" type="url" placeholder="https://company.ru" />
+                  </div>
+                </div>
+              </div>
+              <p class="field-error" id="form-error" role="alert" hidden>Добавьте хотя бы одну корректную ссылку.</p>
+              <div class="actions">
+                <button class="btn btn-primary" type="submit">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4M11 8v6M8 11h6"/></svg>
+                  Запустить анализ
+                </button>
+                <span class="trust-note">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 5 6v5c0 4.6 2.8 8.4 7 10 4.2-1.6 7-5.4 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+                  Задержки между запросами · только открытые данные
+                </span>
+              </div>
+            </form>
+          </div>
+
+          <aside class="card brief-card">
+            <span class="meta">На выходе</span>
+            <h3>Готовый бриф для лендинга</h3>
+            <div class="brief-list">
+              <div class="brief-item"><span class="brief-index">01</span><div><strong>Карточка компании</strong><span>Описание, контакты, адрес и график</span></div></div>
+              <div class="brief-item"><span class="brief-index">02</span><div><strong>Продукты и цены</strong><span>Услуги, акции и условия покупки</span></div></div>
+              <div class="brief-item"><span class="brief-index">03</span><div><strong>Медиатека</strong><span>Логотип и отобранные фотографии</span></div></div>
+              <div class="brief-item"><span class="brief-index">04</span><div><strong>Структура сайта</strong><span>Страницы, секции и готовые тезисы</span></div></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ===== ПРОГРЕСС ===== -->
+      <section class="view" id="view-progress" data-view="progress" hidden>
+        <div class="workspace-head">
+          <p class="eyebrow">Анализ · в процессе</p>
+          <h1>Собираем цифровой след компании</h1>
+          <p class="lead">Источники обрабатываются по очереди, с вежливыми задержками. Можно закрыть вкладку — прогресс сохраняется.</p>
+        </div>
+        <div class="card progress-card">
+          <div class="row-between">
+            <div class="row">
+              <div class="progress-ring" id="progress-ring" aria-hidden="true"></div>
+              <div><h3 id="progress-title">Проверяем источники</h3><p style="margin: 4px 0 0; color: var(--muted);" id="progress-company">Проект</p></div>
+            </div>
+            <span class="pill" id="progress-pill">Обработка</span>
+          </div>
+          <div class="progress-track" id="progress-track" role="progressbar" aria-label="Прогресс анализа" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="progress-fill"></div></div>
+          <div class="progress-meta"><span id="progress-step">Подготовка</span><span id="progress-number">0%</span></div>
+          <div class="analysis-log" id="analysis-log"></div>
+          <div class="actions">
+            <button class="btn btn-secondary" type="button" id="cancel-btn">Отменить</button>
+            <button class="btn btn-primary" id="open-result" type="button" hidden>Перейти к отчёту</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== ИСТОРИЯ ===== -->
+      <section class="view" id="view-history" data-view="history" hidden>
+        <div class="workspace-head">
+          <p class="eyebrow">Проекты · история</p>
+          <h1>История анализов</h1>
+          <p class="lead">Все завершённые проекты остаются под рукой: можно найти компанию, открыть отчёт или вернуться к структуре сайта.</p>
+        </div>
+
+        <div class="history-toolbar">
+          <div class="field history-search">
+            <label for="history-search">Поиск по проектам</label>
+            <input class="input" id="history-search" type="search" placeholder="Название, город или тип бизнеса" autocomplete="off" />
+          </div>
+          <div class="row" style="flex-wrap: wrap;">
+            <span class="tag" id="history-count">—</span>
+            <button class="btn btn-primary" type="button" data-action="new">Новый анализ</button>
+          </div>
+        </div>
+
+        <div class="history-list" id="history-list"></div>
+        <div class="history-empty" id="history-empty" hidden>
+          <h3>Пока пусто</h3>
+          <p style="margin: 6px 0 0;">Запустите первый анализ — отчёты будут появляться здесь.</p>
+        </div>
+      </section>
+
+      <!-- ===== НАСТРОЙКИ ===== -->
+      <section class="view" id="view-settings" data-view="settings" hidden>
+        <div class="workspace-head">
+          <p class="eyebrow">Система · ИИ</p>
+          <h1>Настройки ИИ</h1>
+          <p class="lead">Выберите локальный Codex CLI или подключите собственный OpenAI-совместимый API для анализа компаний.</p>
+        </div>
+
+        <div class="grid-1-2">
+          <aside class="card">
+            <span class="meta">Способ подключения</span>
+            <h3 style="margin: 8px 0 18px;">Провайдер анализа</h3>
+            <div class="provider-list" role="list">
+              <button class="provider-option" type="button" data-provider="codex">
+                <strong>Codex CLI</strong>
+                <span>Локальный агент с существующим способом входа.</span>
+              </button>
+              <button class="provider-option" type="button" data-provider="custom">
+                <strong>Свой провайдер</strong>
+                <span>Base URL, API-ключ и модель OpenAI-совместимого API.</span>
+              </button>
+            </div>
+            <div class="security-note">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 5 6v5c0 4.6 2.8 8.4 7 10 4.2-1.6 7-5.4 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+              <span>API-ключ хранится только в локальной базе данных вашего компьютера.</span>
+            </div>
+          </aside>
+
+          <div>
+            <article class="card provider-panel" data-provider-panel="codex" hidden>
+              <div class="provider-panel-head"><div><span class="meta">Локальный режим</span><h3 style="margin-top: 7px;">Codex CLI</h3><p>Сервис передаёт задание локальному агенту <code>codex exec</code> и получает структурированный JSON-отчёт.</p></div><span class="pill">Выбран</span></div>
+              <div class="facts">
+                <div class="fact-row"><dt>Авторизация</dt><dd>Используется текущий вход Codex CLI</dd></div>
+                <div class="fact-row"><dt>Запуск</dt><dd>Локально, песочница read-only</dd></div>
+                <div class="fact-row"><dt>API-ключ в браузере</dt><dd>Не требуется</dd></div>
+              </div>
+              <div class="codex-command" style="margin-top: 22px;">codex exec --skip-git-repo-check --sandbox read-only …</div>
+              <div class="actions"><button class="btn btn-secondary" type="button" id="test-codex">Проверить Codex CLI</button><span class="meta" id="codex-status"></span></div>
+            </article>
+
+            <article class="card provider-panel" data-provider-panel="custom" hidden>
+              <div class="provider-panel-head"><div><span class="meta">OpenAI-compatible</span><h3 style="margin-top: 7px;">Добавить провайдера</h3><p>Параметры подключения к вашему API-шлюзу или облачной модели.</p></div><span class="tag" id="custom-status">Не настроен</span></div>
+              <form id="provider-form" novalidate>
+                <div class="settings-form">
+                  <div class="field"><label for="provider-name">Название</label><input class="input provider-required" id="provider-name" placeholder="Например, рабочий API" /></div>
+                  <div class="field"><label for="provider-model">ID модели</label><input class="input provider-required" id="provider-model" placeholder="model-name" /></div>
+                  <div class="field field-wide"><label for="provider-url">Base URL</label><input class="input provider-required" id="provider-url" type="url" placeholder="https://api.example.com/v1" /></div>
+                  <div class="field field-wide"><label for="provider-key">API-ключ</label><div class="secret-row"><input class="input" id="provider-key" type="password" autocomplete="off" placeholder="Оставьте пустым, чтобы не менять" /><button class="btn btn-secondary" type="button" id="toggle-key" aria-pressed="false">Показать</button></div><small>Хранится в локальной базе, никуда не отправляется кроме вашего API.</small></div>
+                </div>
+                <p class="field-error" id="provider-error" role="alert" hidden>Заполните название, URL и ID модели.</p>
+                <div class="actions"><button class="btn btn-secondary" type="button" id="test-custom">Проверить подключение</button><button class="btn btn-primary" type="submit">Сохранить провайдера</button></div>
+              </form>
+            </article>
+
+            <article class="card" style="margin-top: 24px;">
+              <div class="row-between" style="margin-bottom: 18px;"><div><span class="meta">Надёжность сбора</span><h3 style="margin-top: 7px;">Браузерный бустер</h3></div><span class="tag" id="booster-badge">проверяю…</span></div>
+              <p style="margin: 0; color: var(--muted);">Headless-браузер проходит JS-проверки 2ГИС, капчу Яндекса и стену Instagram. Без него работают обычные сайты и часть профилей. Скачивание ~150 МБ, один раз.</p>
+              <div class="actions"><button class="btn btn-secondary" type="button" id="booster-refresh">Обновить статус</button><button class="btn btn-primary" type="button" id="booster-install">Установить бустер</button></div>
+              <p class="meta" id="booster-status" style="margin-top: 12px;"></p>
+            </article>
+
+            <article class="card" style="margin-top: 24px;">
+              <div class="row-between" style="margin-bottom: 18px;"><div><span class="meta">Продвинутое</span><h3 style="margin-top: 7px;">Поведение сбора</h3></div><span class="tag">защита от банов</span></div>
+              <form id="crawl-form">
+                <div class="settings-form">
+                  <div class="field"><label for="crawl-delay">Задержка между запросами, мс</label><input class="input" id="crawl-delay" type="number" min="500" max="30000" step="250" /><small>Пауза между обращениями к одному домену</small></div>
+                  <div class="field"><label for="crawl-images">Максимум фотографий</label><input class="input" id="crawl-images" type="number" min="4" max="60" step="1" /></div>
+                  <div class="field"><label for="crawl-subpages">Подстраниц сайта</label><input class="input" id="crawl-subpages" type="number" min="0" max="10" step="1" /><small>Обход услуг/цен/контактов на сайте</small></div>
+                  <div class="field"><label for="crawl-timeout">Таймаут ИИ, секунд</label><input class="input" id="crawl-timeout" type="number" min="60" max="3600" step="30" /></div>
+                </div>
+                <div class="actions"><button class="btn btn-primary" type="submit">Сохранить</button><span class="meta" id="crawl-status"></span></div>
+              </form>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== ОТЧЁТ ===== -->
+      <section class="view" id="view-report" data-view="report" hidden>
+        <div class="report-head">
+          <div class="report-title">
+            <div class="report-logo" id="report-logo">?</div>
+            <div>
+              <div class="row" style="gap: 8px; margin-bottom: 7px;"><span class="pill" id="report-state">Готов</span><span class="tag" id="report-date"></span></div>
+              <h1 id="report-name">Компания</h1>
+              <p id="report-sub"></p>
+            </div>
+          </div>
+          <button class="btn btn-primary" type="button" data-action="export" id="report-export">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 3v12M8 11l4 4 4-4M5 19h14"/></svg>
+            Экспортировать
+          </button>
+        </div>
+
+        <div class="tabs" role="tablist" aria-label="Разделы отчёта">
+          <button class="tab is-active" type="button" role="tab" aria-selected="true" data-tab="overview">Обзор</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" data-tab="data">Данные</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" data-tab="media">Медиа</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" data-tab="structure">Структура сайта</button>
+        </div>
+
+        <section class="tab-panel" data-panel="overview">
+          <div class="grid-3" style="margin-bottom: 30px;">
+            <article class="card metric-card"><span class="meta">Направления</span><div><div class="metric-value num" id="metric-services">—</div><p>услуг найдено в источниках</p></div></article>
+            <article class="card metric-card"><span class="meta">Стоимость</span><div><div class="metric-value num" id="metric-price">—</div><p id="metric-price-note">цены из открытых данных</p></div></article>
+            <article class="card metric-card"><span class="meta">Медиатека</span><div><div class="metric-value num" id="metric-media">—</div><p>файлов сохранено локально</p></div></article>
+          </div>
+          <div class="grid-2">
+            <article class="card">
+              <div class="row-between" style="margin-bottom: 20px;"><h3>Карточка компании</h3><button class="btn btn-ghost" type="button" data-action="copy-summary">Скопировать</button></div>
+              <dl class="facts" id="report-facts"></dl>
+            </article>
+            <article class="card">
+              <span class="meta">Готовность контента</span>
+              <h3 style="margin-top: 9px;">Что уже можно переносить в макет</h3>
+              <div class="confidence" id="readiness-tags"></div>
+              <hr class="rule" style="margin: 24px 0;" />
+              <p style="margin: 0; color: var(--muted);" id="report-warnings"></p>
+            </article>
+          </div>
+        </section>
+
+        <section class="tab-panel" data-panel="data" hidden>
+          <div class="row-between" style="margin-bottom: 24px;"><div><h2>Данные для сайта</h2><p class="lead" style="margin-top: 8px;">Факты сгруппированы по будущим разделам и готовы к редактуре.</p></div><button class="btn btn-secondary" type="button" data-action="copy-data">Скопировать всё</button></div>
+          <div class="card" style="overflow-x: auto;">
+            <table class="ds-table">
+              <thead><tr><th>Раздел</th><th>Собранная информация</th><th>Источник</th><th>Статус</th></tr></thead>
+              <tbody id="data-rows"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="tab-panel" data-panel="media" hidden>
+          <div class="row-between" style="margin-bottom: 24px;"><div><h2>Отобранные медиа</h2><p class="lead" style="margin-top: 8px;">Файлы скачаны локально и включаются в архив экспорта.</p></div><button class="btn btn-secondary" type="button" data-action="download-media">Скачать архив</button></div>
+          <div class="media-grid" id="media-grid"></div>
+          <div class="history-empty" id="media-empty" hidden><h3>Медиа не найдены</h3><p style="margin: 6px 0 0;">Источники не отдали подходящих изображений.</p></div>
+        </section>
+
+        <section class="tab-panel" data-panel="structure" hidden>
+          <div class="row-between" style="margin-bottom: 24px;"><div><h2>Рекомендуемая структура</h2><p class="lead" style="margin-top: 8px;">Выберите страницу, чтобы увидеть состав секций и контентные задачи.</p></div><button class="btn btn-secondary" type="button" data-action="copy-structure">Скопировать структуру</button></div>
+          <div class="structure-shell">
+            <div class="tree" role="list" id="structure-tree"></div>
+            <article class="card">
+              <span class="meta">Страница</span>
+              <h3 id="page-title" style="margin-top: 7px;">—</h3>
+              <p id="page-purpose" style="margin: 7px 0 0; color: var(--muted);"></p>
+              <div class="section-list" id="section-list"></div>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <footer class="pagefoot">
+    <div class="container row-between"><span>SiteScope · локальный сервис анализа компаний</span><span class="meta">Данные: SQLite + ./data · ИИ: Codex CLI или свой провайдер</span></div>
+  </footer>
+
+  <div class="modal" id="export-modal" role="dialog" aria-modal="true" aria-labelledby="export-title" hidden>
+    <div class="modal-card">
+      <div class="modal-head"><div><span class="meta">Экспорт отчёта</span><h3 id="export-title" style="margin-top: 6px;">Выберите формат</h3></div><button class="icon-btn" type="button" data-action="close-modal" aria-label="Закрыть окно">×</button></div>
+      <div class="export-list">
+        <a class="export-option" id="export-json" href="#"><span><strong>Архив для ИИ-агента</strong><span>ZIP: промпт для лендинга + JSON-бриф + медиа</span></span><span class="meta">.zip</span></a>
+        <a class="export-option" id="export-brief" href="#"><span><strong>JSON</strong><span>Структурированные данные для разработки</span></span><span class="meta">.json</span></a>
+        <a class="export-option" id="export-txt" href="#"><span><strong>Текстовый бриф</strong><span>Контент и структура для дизайнера</span></span><span class="meta">.txt</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="help-modal" role="dialog" aria-modal="true" aria-labelledby="help-title" hidden>
+    <div class="modal-card">
+      <div class="modal-head"><div><span class="meta">Сценарий продукта</span><h3 id="help-title" style="margin-top: 6px;">Как работает SiteScope</h3></div><button class="icon-btn" type="button" data-action="close-modal" aria-label="Закрыть окно">×</button></div>
+      <div class="brief-list">
+        <div class="brief-item"><span class="brief-index">01</span><div><strong>Получает ссылки</strong><span>Instagram, 2ГИС, Яндекс Карты и сайт компании</span></div></div>
+        <div class="brief-item"><span class="brief-index">02</span><div><strong>Скачивает с задержками</strong><span>Вежливые паузы между запросами, чтобы площадки не блокировали</span></div></div>
+        <div class="brief-item"><span class="brief-index">03</span><div><strong>Анализирует через ИИ</strong><span>Codex CLI или ваш OpenAI-совместимый API собирает бриф</span></div></div>
+        <div class="brief-item"><span class="brief-index">04</span><div><strong>Отдаёт архив</strong><span>Промпт + данные + медиа: скормите ИИ-агенту и получите лендинг</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

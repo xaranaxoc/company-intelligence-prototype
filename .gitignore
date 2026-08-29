@@ -1,3 +1,6 @@
 .file-versions/
 .od-skills/
 *.artifact.json
+node_modules/
+data/
+*.log
