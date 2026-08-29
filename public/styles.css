@@ -223,9 +223,12 @@
     .metric-value { font-family: var(--font-display); font-size: 34px; line-height: 1.1; letter-spacing: -.02em; }
     .metric-card p { margin: 5px 0 0; color: var(--muted); font-size: 12px; }
     .facts { display: grid; gap: 0; }
-    .fact-row { display: grid; grid-template-columns: 170px 1fr; gap: 20px; padding: 15px 0; border-top: 1px solid var(--border); }
+    .fact-row { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 20px; padding: 15px 0; border-top: 1px solid var(--border); }
     .fact-row dt { color: var(--muted); font-family: var(--font-mono); font-size: 11px; }
-    .fact-row dd { margin: 0; }
+    .fact-row dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+    .fact-row dd a { color: inherit; text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 3px; }
+    .fact-row dd a:hover { text-decoration-color: var(--fg); }
+    .ds-table td { overflow-wrap: anywhere; }
     .confidence { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
 
     .media-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }

@@ -281,15 +281,17 @@
     $('#metric-media').textContent = media.length ? `${media.length} ${plural(media.length, 'файл', 'файла', 'файлов')}` : '—';
 
     // карточка компании
+    const socialLinks = (company.socials || []).map((s) =>
+      `<a href="${esc(s.url)}" target="_blank" rel="noopener" title="${esc(s.url)}">${esc(s.name)}</a>`).join(' · ');
     const facts = [
-      ['Позиционирование', company.tagline || company.description],
-      ['Адрес', company.address],
-      ['Телефон', (company.phones || []).join(' · ')],
-      ['Почта', (company.emails || []).join(' · ')],
-      ['Расписание', company.hours],
-      ['Соцсети', (company.socials || []).map((s) => `${s.name}: ${s.url}`).join(' · ')],
+      ['Позиционирование', esc(company.tagline || company.description)],
+      ['Адрес', esc(company.address)],
+      ['Телефон', esc((company.phones || []).join(' · '))],
+      ['Почта', esc((company.emails || []).join(' · '))],
+      ['Расписание', esc(company.hours)],
+      ['Соцсети', socialLinks || null],
     ].filter(([, v]) => v);
-    $('#report-facts').innerHTML = facts.map(([k, v]) => `<div class="fact-row"><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('');
+    $('#report-facts').innerHTML = facts.map(([k, v]) => `<div class="fact-row"><dt>${esc(k)}</dt><dd>${v}</dd></div>`).join('');
 
     // готовность контента
     const readiness = [];
