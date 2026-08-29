@@ -264,9 +264,20 @@
       ? `<img src="/media/${state.report.id}/${state.report.logo_file}" alt="Логотип" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
       : esc((name || '?').slice(0, 1).toUpperCase());
 
-    // метрики
+    // метрики (короткая цена для карточки, полный прайс остаётся в данных и экспорте)
+    const shortPrice = (s) => {
+      if (!s) return '—';
+      if (s.length <= 42) return s;
+      const m = /от\s+[\d\u00A0\s]+/i.exec(s);
+      if (m) return `${m[0].replace(/\s+/g, ' ').trim()} ₽`;
+      return `${s.split(/[;.]/)[0].slice(0, 38)}…`;
+    };
+    const pricedCount = services.filter((s) => s.price).length;
     $('#metric-services').textContent = services.length || '—';
-    $('#metric-price').textContent = r?.price_summary || (services.find((s) => s.price)?.price ?? '—');
+    $('#metric-price').textContent = shortPrice(r?.price_summary || services.find((s) => s.price)?.price);
+    $('#metric-price-note').textContent = pricedCount > 1
+      ? `${pricedCount} позиций с ценами из открытых данных`
+      : 'цены из открытых данных';
     $('#metric-media').textContent = media.length ? `${media.length} ${plural(media.length, 'файл', 'файла', 'файлов')}` : '—';
 
     // карточка компании
@@ -377,6 +388,7 @@
     $('#crawl-images').value = s.crawl.maxImages;
     $('#crawl-subpages').value = s.crawl.maxSubpages;
     $('#crawl-timeout').value = s.crawl.aiTimeoutSec;
+    $('#crawl-headed').checked = s.crawl.headed !== false;
     $('#provider-hint').textContent = s.provider === 'custom' ? 'ИИ: свой провайдер' : 'ИИ: Codex CLI';
   }
 
@@ -412,6 +424,7 @@
         maxImages: Number($('#crawl-images').value),
         maxSubpages: Number($('#crawl-subpages').value),
         aiTimeoutSec: Number($('#crawl-timeout').value),
+        headed: $('#crawl-headed').checked,
       } } }));
       $('#crawl-status').textContent = 'Сохранено';
       showToast('Настройки сбора сохранены');

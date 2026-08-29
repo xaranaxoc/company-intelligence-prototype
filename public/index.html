@@ -267,6 +267,11 @@
                   <div class="field"><label for="crawl-images">Максимум фотографий</label><input class="input" id="crawl-images" type="number" min="4" max="60" step="1" /></div>
                   <div class="field"><label for="crawl-subpages">Подстраниц сайта</label><input class="input" id="crawl-subpages" type="number" min="0" max="10" step="1" /><small>Обход услуг/цен/контактов на сайте</small></div>
                   <div class="field"><label for="crawl-timeout">Таймаут ИИ, секунд</label><input class="input" id="crawl-timeout" type="number" min="60" max="3600" step="30" /></div>
+                  <div class="field field-wide" style="flex-direction: row; align-items: center; gap: 10px;">
+                    <input type="checkbox" id="crawl-headed" style="width: 18px; height: 18px; accent-color: var(--fg);" />
+                    <label for="crawl-headed" style="margin: 0;">Открывать окно браузера при сборе</label>
+                    <small style="margin-left: auto; text-align: right;">настоящий браузер проходит проверки 2ГИС и Янд;<br />окно появляется на время анализа и закрывается само</small>
+                  </div>
                 </div>
                 <div class="actions"><button class="btn btn-primary" type="submit">Сохранить</button><span class="meta" id="crawl-status"></span></div>
               </form>

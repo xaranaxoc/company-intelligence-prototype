@@ -93,6 +93,7 @@ route('PUT', 'api/settings', async (ctx) => {
       maxImages: num(body.crawl.maxImages, prev.maxImages, 4, 60),
       aiTimeoutSec: num(body.crawl.aiTimeoutSec, prev.aiTimeoutSec, 60, 3600),
       maxSubpages: num(body.crawl.maxSubpages, prev.maxSubpages, 0, 10),
+      headed: body.crawl.headed !== undefined ? !!body.crawl.headed : prev.headed,
     };
   }
   return saveSettings(patch);
