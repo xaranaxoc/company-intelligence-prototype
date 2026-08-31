@@ -329,32 +329,6 @@
         <p>${m.width ? `${m.width}×${m.height} · ` : ''}${esc(m.source_type || '')}</p>
       </article>`).join('');
 
-    // структура
-    const pages = r?.site_structure?.pages || [];
-    $('#structure-tree').innerHTML = pages.map((p, i) => `
-      <button class="tree-item ${i === 0 ? 'is-active' : ''}" type="button" data-page="${i}">
-        <span>${esc(p.name)}</span><span>${(p.sections || []).length} секций</span>
-      </button>`).join('');
-    const renderPage = (i) => {
-      const page = pages[i];
-      if (!page) return;
-      $('#page-title').textContent = page.name;
-      $('#page-purpose').textContent = page.purpose || '';
-      $('#section-list').innerHTML = (page.sections || []).map((s, j) => `
-        <div class="section-row">
-          <span class="num">${String(j + 1).padStart(2, '0')}</span>
-          <div><strong>${esc(s.name)}</strong><p>${esc(s.content || '')}</p></div>
-          <span class="tag">${esc(priorityLabel(s.priority))}</span>
-        </div>`).join('');
-    };
-    const priorityLabel = (p) => ({ high: 'приоритет', medium: 'контент готов', low: 'уточнить' }[p] || 'контент готов');
-    $$('#structure-tree .tree-item').forEach((btn) => btn.addEventListener('click', () => {
-      $$('#structure-tree .tree-item').forEach((b) => b.classList.remove('is-active'));
-      btn.classList.add('is-active');
-      renderPage(Number(btn.dataset.page));
-    }));
-    renderPage(0);
-
     // экспорт
     const base = `/api/companies/${state.report.id}/export`;
     $('#export-json').href = `${base}?format=zip`;
@@ -371,8 +345,6 @@
     if (c.description) parts.push(c.description);
     if (r.price_summary) parts.push(`Цены: ${r.price_summary}`);
     if ((r.services || []).length) parts.push(`Услуги: ${r.services.map((s) => s.name).join(', ')}`);
-    const pages = (r.site_structure?.pages || []).map((p) => p.name).join(', ');
-    if (pages) parts.push(`Структура: ${pages}`);
     return parts.join('\n');
   };
 
@@ -507,11 +479,9 @@
       window.location.href = `/api/companies/${state.report.id}/export?format=zip`;
       showToast('Архив с медиа готовится');
     }
-    if (action === 'copy-summary' || action === 'copy-data' || action === 'copy-structure') {
+    if (action === 'copy-summary' || action === 'copy-data') {
       const text = action === 'copy-summary' ? briefToTextLocal()
-        : action === 'copy-data'
-          ? (state.report?.report?.services || []).map((s) => `${s.name}${s.price ? ` — ${s.price}` : ''}${s.description ? `. ${s.description}` : ''}`).join('\n')
-          : (state.report?.report?.site_structure?.pages || []).map((p) => `${p.name}: ${(p.sections || []).map((s) => s.name).join(', ')}`).join('\n');
+        : (state.report?.report?.services || []).map((s) => `${s.name}${s.price ? ` — ${s.price}` : ''}${s.description ? `. ${s.description}` : ''}`).join('\n');
       await navigator.clipboard.writeText(text).catch(() => null);
       showToast('Информация скопирована');
     }

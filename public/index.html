@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SiteScope — анализ компании и структура сайта</title>
+  <title>SiteScope — анализ компании по открытым источникам</title>
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
@@ -64,7 +64,7 @@
         <div class="workspace-head">
           <p class="eyebrow">Новый проект · шаг 1</p>
           <h1>Соберите основу сайта из открытых данных</h1>
-          <p class="lead">Добавьте ссылки на площадки компании. Сервис соберёт факты, медиа и структуру сайта, а ИИ оформит готовый бриф для лендинга.</p>
+          <p class="lead">Добавьте ссылки на площадки компании. Сервис соберёт факты, услуги, цены, контакты и медиа — ИИ сам решит, каким сделать сайт.</p>
         </div>
 
         <div class="grid-2-1">
@@ -141,7 +141,7 @@
               <div class="brief-item"><span class="brief-index">01</span><div><strong>Карточка компании</strong><span>Описание, контакты, адрес и график</span></div></div>
               <div class="brief-item"><span class="brief-index">02</span><div><strong>Продукты и цены</strong><span>Услуги, акции и условия покупки</span></div></div>
               <div class="brief-item"><span class="brief-index">03</span><div><strong>Медиатека</strong><span>Логотип и отобранные фотографии</span></div></div>
-              <div class="brief-item"><span class="brief-index">04</span><div><strong>Структура сайта</strong><span>Страницы, секции и готовые тезисы</span></div></div>
+              <div class="brief-item"><span class="brief-index">04</span><div><strong>Аудитория и тон</strong><span>Кому и как компания продаёт</span></div></div>
             </div>
           </aside>
         </div>
@@ -177,7 +177,7 @@
         <div class="workspace-head">
           <p class="eyebrow">Проекты · история</p>
           <h1>История анализов</h1>
-          <p class="lead">Все завершённые проекты остаются под рукой: можно найти компанию, открыть отчёт или вернуться к структуре сайта.</p>
+          <p class="lead">Все завершённые проекты остаются под рукой: можно найти компанию, открыть отчёт или экспортировать данные.</p>
         </div>
 
         <div class="history-toolbar">
@@ -301,7 +301,6 @@
           <button class="tab is-active" type="button" role="tab" aria-selected="true" data-tab="overview">Обзор</button>
           <button class="tab" type="button" role="tab" aria-selected="false" data-tab="data">Данные</button>
           <button class="tab" type="button" role="tab" aria-selected="false" data-tab="media">Медиа</button>
-          <button class="tab" type="button" role="tab" aria-selected="false" data-tab="structure">Структура сайта</button>
         </div>
 
         <section class="tab-panel" data-panel="overview">
@@ -339,19 +338,6 @@
           <div class="row-between" style="margin-bottom: 24px;"><div><h2>Отобранные медиа</h2><p class="lead" style="margin-top: 8px;">Файлы скачаны локально и включаются в архив экспорта.</p></div><button class="btn btn-secondary" type="button" data-action="download-media">Скачать архив</button></div>
           <div class="media-grid" id="media-grid"></div>
           <div class="history-empty" id="media-empty" hidden><h3>Медиа не найдены</h3><p style="margin: 6px 0 0;">Источники не отдали подходящих изображений.</p></div>
-        </section>
-
-        <section class="tab-panel" data-panel="structure" hidden>
-          <div class="row-between" style="margin-bottom: 24px;"><div><h2>Рекомендуемая структура</h2><p class="lead" style="margin-top: 8px;">Выберите страницу, чтобы увидеть состав секций и контентные задачи.</p></div><button class="btn btn-secondary" type="button" data-action="copy-structure">Скопировать структуру</button></div>
-          <div class="structure-shell">
-            <div class="tree" role="list" id="structure-tree"></div>
-            <article class="card">
-              <span class="meta">Страница</span>
-              <h3 id="page-title" style="margin-top: 7px;">—</h3>
-              <p id="page-purpose" style="margin: 7px 0 0; color: var(--muted);"></p>
-              <div class="section-list" id="section-list"></div>
-            </article>
-          </div>
         </section>
       </section>
     </main>
