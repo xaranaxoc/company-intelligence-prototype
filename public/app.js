@@ -540,13 +540,16 @@
     try { applySettings(await api('/api/settings')); } catch { /* сервер недоступен */ }
     try { await refreshCompanies(); } catch { /* сервер недоступен */ }
     try {
-      const { job } = await api('/api/jobs/active');
+      const { job, running } = await api('/api/jobs/active');
       if (job) {
         state.jobId = job.id;
         $('#progress-company').textContent = `Задание #${job.id}`;
         renderJob(job);
         setView('progress');
         startPolling();
+        if ((running || []).length > 1) {
+          showToast(`Ещё ${(running || []).length - 1} анализ(а) выполняются в фоне — статус в «Истории»`);
+        }
         return;
       }
     } catch { /* нет активных заданий */ }

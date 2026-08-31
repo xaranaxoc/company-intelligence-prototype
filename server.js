@@ -4,7 +4,7 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
-import { ROOT, MEDIA_DIR, reapStaleJobs, getSettings, saveSettings } from './lib/db.js';
+import { ROOT, MEDIA_DIR, db, reapStaleJobs, getSettings, saveSettings } from './lib/db.js';
 import { listCompanies, getCompany, deleteCompany, listSources, listMedia, getJob, activeJob } from './lib/db.js';
 import { startAnalysis, cancelJob } from './lib/jobs.js';
 import { testCodex, testCustom } from './lib/ai.js';
@@ -128,11 +128,13 @@ route('DELETE', 'api/companies/:id', (ctx) => {
 
 route('POST', 'api/analyze', async (ctx) => {
   const body = await readBody(ctx.req);
-  if (activeJob()) return Object.assign(new Error('Анализ уже выполняется — дождитесь завершения или отмените его'), { status: 409 });
-  return startAnalysis(body);
+  return startAnalysis(body); // анализы выполняются параллельно, ограничений нет
 });
 
-route('GET', 'api/jobs/active', () => ({ job: activeJob() || null }));
+route('GET', 'api/jobs/active', () => {
+  const jobs = db.prepare("SELECT * FROM jobs WHERE status = 'running' ORDER BY id DESC").all();
+  return { job: jobs[0] || null, running: jobs.map((j) => ({ ...j, log: JSON.parse(j.log_json || '[]') })) };
+});
 
 route('GET', 'api/jobs/:id', (ctx) => {
   const job = getJob(ctx.params.id);
