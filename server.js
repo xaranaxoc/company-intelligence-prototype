@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { ROOT, MEDIA_DIR, db, reapStaleJobs, getSettings, saveSettings } from './lib/db.js';
-import { listCompanies, getCompany, deleteCompany, listSources, listMedia, getJob, activeJob } from './lib/db.js';
+import { listCompanies, getCompany, deleteCompany, listSources, listMedia, removeLogo, getJob, activeJob } from './lib/db.js';
 import { startAnalysis, cancelJob } from './lib/jobs.js';
 import { testCodex, testCustom } from './lib/ai.js';
 import { buildBrief, briefToText, exportZip } from './lib/export.js';
@@ -123,6 +123,15 @@ route('DELETE', 'api/companies/:id', (ctx) => {
   if (!company) throw Object.assign(new Error('Компания не найдена'), { status: 404 });
   deleteCompany(ctx.params.id);
   fs.rmSync(path.join(MEDIA_DIR, String(company.id)), { recursive: true, force: true });
+  return { ok: true };
+});
+
+route('POST', 'api/companies/:id/remove-logo', (ctx) => {
+  const company = getCompany(ctx.params.id);
+  if (!company) throw Object.assign(new Error('Компания не найдена'), { status: 404 });
+  for (const file of removeLogo(company.id)) {
+    fs.rmSync(path.join(MEDIA_DIR, String(company.id), file), { force: true });
+  }
   return { ok: true };
 });
 

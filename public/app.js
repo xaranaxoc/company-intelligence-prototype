@@ -253,6 +253,18 @@
     setTab('overview');
   }
 
+  // логотип может оказаться чужим (реклама в 2ГИС) — даём убрать его вручную
+  $('#logo-remove').addEventListener('click', async () => {
+    if (!confirm('Убрать логотип? Картинка будет удалена из проекта.')) return;
+    try {
+      await api(`/api/companies/${state.report.id}/remove-logo`, { method: 'POST' });
+      state.report = await api(`/api/companies/${state.report.id}`);
+      renderReport();
+      refreshCompanies();
+      showToast('Логотип убран');
+    } catch (err) { showToast(err.message); }
+  });
+
   function renderReport() {
     const { report: r, name, updated_at, media, sources } = state.report;
     const company = r?.company || {};
@@ -263,6 +275,7 @@
     $('#report-logo').innerHTML = state.report.logo_file
       ? `<img src="/media/${state.report.id}/${state.report.logo_file}" alt="Логотип" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
       : esc((name || '?').slice(0, 1).toUpperCase());
+    $('#logo-remove').hidden = !state.report.logo_file;
 
     // метрики (короткая цена для карточки, полный прайс остаётся в данных и экспорте)
     const shortPrice = (s) => {
